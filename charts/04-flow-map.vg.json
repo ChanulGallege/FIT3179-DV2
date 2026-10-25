@@ -1,0 +1,286 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 370,
+  "config": {
+    "background": "transparent",
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "labelColor": "#54645f",
+      "titleColor": "#344a43",
+      "gridColor": "#e2e5dc",
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titlePadding": 12,
+      "labelLimit": 180
+    },
+    "legend": {
+      "orient": "bottom",
+      "title": null,
+      "labelColor": "#344a43",
+      "labelFontSize": 11,
+      "titleLimit": 440,
+      "labelLimit": 230
+    },
+    "range": {
+      "category": [
+        "#17645d",
+        "#d66a3a",
+        "#243d53",
+        "#dca64a",
+        "#7f86a8",
+        "#9f7161",
+        "#79988a",
+        "#b29c64"
+      ]
+    }
+  },
+  "projection": {
+    "type": "equalEarth",
+    "rotate": [
+      -135,
+      0,
+      0
+    ]
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "https://cdn.jsdelivr.net/npm/vega-datasets@2.8.0/data/world-110m.json",
+        "format": {
+          "type": "topojson",
+          "feature": "countries"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e3e6dd",
+        "stroke": "#fff",
+        "strokeWidth": 0.4
+      },
+      "transform": [
+        {
+          "filter": "toNumber(datum.id) != 10"
+        }
+      ]
+    },
+    {
+      "data": {
+        "url": "data/flows.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "market": "string",
+            "year": "number",
+            "trips": "number",
+            "spend_m": "number",
+            "longitude": "number",
+            "latitude": "number",
+            "destination_longitude": "number",
+            "destination_latitude": "number",
+            "label": "string"
+          }
+        }
+      },
+      "mark": {
+        "type": "rule",
+        "color": "#d66a3a",
+        "opacity": 0.7
+      },
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+        "longitude2": {
+          "field": "destination_longitude"
+        },
+        "latitude2": {
+          "field": "destination_latitude"
+        },
+        "strokeWidth": {
+          "field": "trips",
+          "type": "quantitative",
+          "title": "International trips (line width)",
+          "scale": {
+            "domain": [
+              0,
+              1300000
+            ],
+            "range": [
+              0,
+              9
+            ]
+          },
+          "legend": {
+            "values": [
+              250000,
+              500000,
+              1000000
+            ],
+            "labelExpr": "format(datum.value / 1000000, '.2~f') + 'm'",
+            "orient": "bottom-left",
+            "symbolType": "stroke",
+            "symbolStrokeColor": "#d66a3a",
+            "titleFontSize": 11,
+            "labelFontSize": 11
+          }
+        },
+        "tooltip": [
+          {
+            "field": "market",
+            "type": "nominal",
+            "title": "Source market"
+          },
+          {
+            "field": "trips",
+            "type": "quantitative",
+            "title": "Trips",
+            "format": ",.0f"
+          },
+          {
+            "field": "spend_m",
+            "type": "quantitative",
+            "title": "Spend in Australia (AUD m)",
+            "format": ",.0f"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/flows.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "market": "string",
+            "year": "number",
+            "trips": "number",
+            "spend_m": "number",
+            "longitude": "number",
+            "latitude": "number",
+            "destination_longitude": "number",
+            "destination_latitude": "number",
+            "label": "string"
+          }
+        }
+      },
+      "mark": {
+        "type": "circle",
+        "color": "#17645d",
+        "size": 60,
+        "opacity": 1
+      },
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/flows.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "market": "string",
+            "year": "number",
+            "trips": "number",
+            "spend_m": "number",
+            "longitude": "number",
+            "latitude": "number",
+            "destination_longitude": "number",
+            "destination_latitude": "number",
+            "label": "string"
+          }
+        }
+      },
+      "mark": {
+        "type": "text",
+        "dy": -12,
+        "fontSize": 11,
+        "color": "#243d53",
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "text"
+        }
+      },
+      "transform": [
+        {
+          "calculate": "datum.label + ' · ' + format(datum.trips / 1000000, '.2f') + 'm'",
+          "as": "text"
+        }
+      ]
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "name": "Australia",
+            "lon": 133.05858125705473,
+            "lat": -24.841454969992654
+          }
+        ]
+      },
+      "layer": [
+        {
+          "mark": {
+            "type": "circle",
+            "size": 220,
+            "color": "#d66a3a",
+            "stroke": "#fff",
+            "strokeWidth": 2,
+            "opacity": 1
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "dy": 20,
+            "fontSize": 13,
+            "fontWeight": "bold",
+            "color": "#203d35"
+          },
+          "encoding": {
+            "text": {
+              "field": "name"
+            }
+          }
+        }
+      ],
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        }
+      }
+    }
+  ]
+}

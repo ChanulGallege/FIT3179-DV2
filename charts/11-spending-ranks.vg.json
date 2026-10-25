@@ -1,0 +1,156 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 300,
+  "config": {
+    "background": "transparent",
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "labelColor": "#54645f",
+      "titleColor": "#344a43",
+      "gridColor": "#e2e5dc",
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titlePadding": 12,
+      "labelLimit": 180
+    },
+    "legend": {
+      "orient": "bottom",
+      "title": null,
+      "labelColor": "#344a43",
+      "labelFontSize": 11,
+      "titleLimit": 440,
+      "labelLimit": 230
+    },
+    "range": {
+      "category": [
+        "#17645d",
+        "#d66a3a",
+        "#243d53",
+        "#dca64a",
+        "#7f86a8",
+        "#9f7161",
+        "#79988a",
+        "#b29c64"
+      ]
+    }
+  },
+  "data": {
+    "url": "data/spending-ranks.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "state": "string",
+        "quarter": "date",
+        "rank": "number",
+        "spend_m": "number"
+      }
+    }
+  },
+  "encoding": {
+    "x": {
+      "field": "quarter",
+      "type": "temporal",
+      "title": null,
+      "axis": {
+        "format": "%b %Y",
+        "values": [
+          "2025-06-30",
+          "2025-09-30",
+          "2025-12-31",
+          "2026-03-31",
+          "2026-06-30"
+        ]
+      }
+    },
+    "y": {
+      "field": "rank",
+      "type": "quantitative",
+      "title": "Spending rank",
+      "scale": {
+        "domain": [
+          8.5,
+          0.5
+        ]
+      },
+      "axis": {
+        "values": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      }
+    },
+    "color": {
+      "field": "state",
+      "type": "nominal",
+      "title": null,
+      "legend": null
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "strokeWidth": 2.5,
+        "point": {
+          "filled": true,
+          "size": 70
+        }
+      },
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": null
+          },
+          {
+            "field": "quarter",
+            "type": "temporal",
+            "title": "Quarter ending",
+            "format": "%b %Y"
+          },
+          {
+            "field": "rank",
+            "type": "quantitative"
+          },
+          {
+            "field": "spend_m",
+            "type": "quantitative",
+            "title": "AUD million",
+            "format": ",.1f"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "utcyear(datum.quarter) == 2026 && utcmonth(datum.quarter) == 5"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -7,
+        "dy": -10,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "text": {
+          "field": "state"
+        }
+      }
+    }
+  ]
+}

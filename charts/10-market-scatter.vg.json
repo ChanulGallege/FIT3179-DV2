@@ -1,0 +1,428 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 330,
+  "config": {
+    "background": "transparent",
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "labelColor": "#54645f",
+      "titleColor": "#344a43",
+      "gridColor": "#e2e5dc",
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titlePadding": 12,
+      "labelLimit": 180
+    },
+    "legend": {
+      "orient": "bottom",
+      "title": null,
+      "labelColor": "#344a43",
+      "labelFontSize": 11,
+      "titleLimit": 440,
+      "labelLimit": 230
+    },
+    "range": {
+      "category": [
+        "#17645d",
+        "#d66a3a",
+        "#243d53",
+        "#dca64a",
+        "#7f86a8",
+        "#9f7161",
+        "#79988a",
+        "#b29c64"
+      ]
+    }
+  },
+  "data": {
+    "url": "data/markets.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "market": "string",
+        "year": "number",
+        "trips": "number",
+        "spend_m": "number"
+      }
+    }
+  },
+  "transform": [
+    {
+      "filter": "datum.year==2026"
+    },
+    {
+      "calculate": "datum.spend_m * 1000000 / datum.trips",
+      "as": "per_trip"
+    }
+  ],
+  "layer": [
+    {
+      "data": {
+        "values": [
+          {
+            "k": 2000,
+            "x": 30000
+          },
+          {
+            "k": 2000,
+            "x": 2000000
+          },
+          {
+            "k": 5000,
+            "x": 30000
+          },
+          {
+            "k": 5000,
+            "x": 2000000
+          },
+          {
+            "k": 10000,
+            "x": 30000
+          },
+          {
+            "k": 10000,
+            "x": 2000000
+          },
+          {
+            "k": 10000,
+            "x": 45000,
+            "tag": 1
+          },
+          {
+            "k": 5000,
+            "x": 1250000,
+            "tag": 1
+          },
+          {
+            "k": 2000,
+            "x": 300000,
+            "tag": 1
+          }
+        ]
+      },
+      "transform": [
+        {
+          "calculate": "datum.x * datum.k / 1000000",
+          "as": "y"
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "line",
+            "strokeDash": [
+              4,
+              4
+            ],
+            "color": "#9aa59f",
+            "strokeWidth": 1,
+            "clip": true
+          },
+          "encoding": {
+            "x": {
+              "field": "x",
+              "type": "quantitative",
+              "scale": {
+                "type": "log",
+                "domain": [
+                  30000,
+                  2000000
+                ]
+              }
+            },
+            "y": {
+              "field": "y",
+              "type": "quantitative",
+              "scale": {
+                "type": "log",
+                "domain": [
+                  150,
+                  20000
+                ]
+              }
+            },
+            "detail": {
+              "field": "k"
+            }
+          },
+          "transform": [
+            {
+              "filter": "!datum.tag"
+            }
+          ]
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.tag == 1"
+            },
+            {
+              "calculate": "format(datum.k, '$,.0f') + ' per trip'",
+              "as": "label"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "center",
+            "dx": 0,
+            "dy": -8,
+            "fontSize": 10,
+            "color": "#7b8980",
+            "clip": true
+          },
+          "encoding": {
+            "x": {
+              "field": "x",
+              "type": "quantitative",
+              "scale": {
+                "type": "log",
+                "domain": [
+                  30000,
+                  2000000
+                ]
+              }
+            },
+            "y": {
+              "field": "y",
+              "type": "quantitative",
+              "scale": {
+                "type": "log",
+                "domain": [
+                  150,
+                  20000
+                ]
+              }
+            },
+            "text": {
+              "field": "label"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "mark": {
+        "type": "circle",
+        "size": 110,
+        "color": "#17645d",
+        "stroke": "white",
+        "strokeWidth": 1,
+        "opacity": 0.8
+      },
+      "encoding": {
+        "x": {
+          "field": "trips",
+          "type": "quantitative",
+          "title": "International trips (log scale)",
+          "scale": {
+            "type": "log",
+            "domain": [
+              30000,
+              2000000
+            ]
+          },
+          "axis": {
+            "values": [
+              30000,
+              100000,
+              300000,
+              1000000
+            ],
+            "labelExpr": "datum.value >= 1000000 ? format(datum.value/1000000,'~f') + 'm' : format(datum.value/1000,'~f') + 'k'"
+          }
+        },
+        "y": {
+          "field": "spend_m",
+          "type": "quantitative",
+          "title": "Spend in Australia (AUD, log scale)",
+          "scale": {
+            "type": "log",
+            "domain": [
+              150,
+              20000
+            ]
+          },
+          "axis": {
+            "values": [
+              200,
+              500,
+              1000,
+              2000,
+              5000,
+              10000
+            ],
+            "labelExpr": "datum.value >= 1000 ? '$' + format(datum.value/1000,'~f') + 'b' : '$' + datum.value + 'm'"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "market",
+            "type": "nominal",
+            "title": null
+          },
+          {
+            "field": "trips",
+            "type": "quantitative",
+            "title": "Trips",
+            "format": ",.0f"
+          },
+          {
+            "field": "spend_m",
+            "type": "quantitative",
+            "title": "AUD million",
+            "format": ",.1f"
+          },
+          {
+            "field": "per_trip",
+            "type": "quantitative",
+            "title": "Spend per trip (AUD)",
+            "format": "$,.0f"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "indexof(['China','India','United Kingdom','Japan','Singapore','France','Switzerland'],datum.market)>=0"
+        },
+        {
+          "calculate": "datum.market == 'United Kingdom' ? 'UK' : datum.market",
+          "as": "short"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "dx": 7,
+        "dy": -8,
+        "align": "left",
+        "fontSize": 11,
+        "color": "#243d53"
+      },
+      "encoding": {
+        "x": {
+          "field": "trips",
+          "type": "quantitative",
+          "scale": {
+            "type": "log",
+            "domain": [
+              30000,
+              2000000
+            ]
+          }
+        },
+        "y": {
+          "field": "spend_m",
+          "type": "quantitative",
+          "scale": {
+            "type": "log",
+            "domain": [
+              150,
+              20000
+            ]
+          }
+        },
+        "text": {
+          "field": "short"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.market == 'New Zealand'"
+        },
+        {
+          "calculate": "datum.market",
+          "as": "short"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "dx": 0,
+        "dy": 16,
+        "align": "center",
+        "fontSize": 11,
+        "color": "#243d53"
+      },
+      "encoding": {
+        "x": {
+          "field": "trips",
+          "type": "quantitative",
+          "scale": {
+            "type": "log",
+            "domain": [
+              30000,
+              2000000
+            ]
+          }
+        },
+        "y": {
+          "field": "spend_m",
+          "type": "quantitative",
+          "scale": {
+            "type": "log",
+            "domain": [
+              150,
+              20000
+            ]
+          }
+        },
+        "text": {
+          "field": "short"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.market == 'United States of America'"
+        },
+        {
+          "calculate": "'USA'",
+          "as": "short"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "dx": 7,
+        "dy": 9,
+        "align": "left",
+        "fontSize": 11,
+        "color": "#243d53"
+      },
+      "encoding": {
+        "x": {
+          "field": "trips",
+          "type": "quantitative",
+          "scale": {
+            "type": "log",
+            "domain": [
+              30000,
+              2000000
+            ]
+          }
+        },
+        "y": {
+          "field": "spend_m",
+          "type": "quantitative",
+          "scale": {
+            "type": "log",
+            "domain": [
+              150,
+              20000
+            ]
+          }
+        },
+        "text": {
+          "field": "short"
+        }
+      }
+    }
+  ]
+}

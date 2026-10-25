@@ -1,0 +1,114 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 310,
+  "height": 310,
+  "config": {
+    "background": "transparent",
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "labelColor": "#54645f",
+      "titleColor": "#344a43",
+      "gridColor": "#e2e5dc",
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titlePadding": 12,
+      "labelLimit": 180
+    },
+    "legend": {
+      "orient": "bottom",
+      "title": null,
+      "labelColor": "#344a43",
+      "labelFontSize": 11,
+      "titleLimit": 440,
+      "labelLimit": 230,
+      "columns": 2
+    },
+    "range": {
+      "category": [
+        "#17645d",
+        "#d66a3a",
+        "#243d53",
+        "#dca64a",
+        "#7f86a8",
+        "#9f7161",
+        "#79988a",
+        "#b29c64"
+      ]
+    }
+  },
+  "data": {
+    "url": "data/waffle.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "row": "number",
+        "column": "number",
+        "purpose": "string",
+        "share": "number"
+      }
+    }
+  },
+  "mark": {
+    "type": "rect",
+    "stroke": "#fbfaf6",
+    "strokeWidth": 3,
+    "cornerRadius": 3
+  },
+  "encoding": {
+    "x": {
+      "field": "column",
+      "type": "ordinal",
+      "axis": null
+    },
+    "y": {
+      "field": "row",
+      "type": "ordinal",
+      "axis": null
+    },
+    "color": {
+      "field": "purpose",
+      "type": "nominal",
+      "title": null,
+      "scale": {
+        "domain": [
+          "Holiday",
+          "Visiting friends and relatives",
+          "Business",
+          "Education",
+          "Employment",
+          "Other Reason"
+        ],
+        "range": [
+          "#dca64a",
+          "#9f7161",
+          "#17645d",
+          "#d66a3a",
+          "#243d53",
+          "#7f86a8"
+        ]
+      },
+      "legend": {
+        "columns": 2,
+        "direction": "vertical",
+        "labelLimit": 230
+      }
+    },
+    "tooltip": [
+      {
+        "field": "purpose",
+        "type": "nominal",
+        "title": null
+      },
+      {
+        "field": "share",
+        "type": "quantitative",
+        "title": "Actual share (%)",
+        "format": ".1f"
+      }
+    ]
+  }
+}

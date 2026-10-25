@@ -1,0 +1,162 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 280,
+  "config": {
+    "background": "transparent",
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "labelColor": "#54645f",
+      "titleColor": "#344a43",
+      "gridColor": "#e2e5dc",
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titlePadding": 12,
+      "labelLimit": 180
+    },
+    "legend": {
+      "orient": "bottom",
+      "title": null,
+      "labelColor": "#344a43",
+      "labelFontSize": 11,
+      "titleLimit": 440,
+      "labelLimit": 230
+    },
+    "range": {
+      "category": [
+        "#17645d",
+        "#d66a3a",
+        "#243d53",
+        "#dca64a",
+        "#7f86a8",
+        "#9f7161",
+        "#79988a",
+        "#b29c64"
+      ]
+    }
+  },
+  "data": {
+    "url": "data/arrivals.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "date": "date",
+        "arrivals": "number"
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "area",
+        "color": "#17645d",
+        "opacity": 0.12
+      },
+      "encoding": {
+        "x": {
+          "field": "date",
+          "type": "temporal",
+          "title": null
+        },
+        "y": {
+          "field": "arrivals",
+          "type": "quantitative",
+          "title": "Monthly short-term arrivals",
+          "axis": {
+            "format": "~s"
+          }
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "line",
+        "color": "#17645d",
+        "strokeWidth": 2.5
+      },
+      "encoding": {
+        "x": {
+          "field": "date",
+          "type": "temporal",
+          "title": null
+        },
+        "y": {
+          "field": "arrivals",
+          "type": "quantitative"
+        },
+        "tooltip": [
+          {
+            "field": "date",
+            "type": "temporal",
+            "title": "Month",
+            "format": "%B %Y"
+          },
+          {
+            "field": "arrivals",
+            "type": "quantitative",
+            "title": "Arrivals",
+            "format": ","
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "date": "2020-03-01"
+          }
+        ]
+      },
+      "mark": {
+        "type": "rule",
+        "strokeDash": [
+          4,
+          4
+        ],
+        "color": "#d66a3a"
+      },
+      "encoding": {
+        "x": {
+          "field": "date",
+          "type": "temporal",
+          "title": null
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "date": "2020-03-01",
+            "label": "2020 - border disruption"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 8,
+        "baseline": "top",
+        "color": "#d66a3a"
+      },
+      "encoding": {
+        "x": {
+          "field": "date",
+          "type": "temporal",
+          "title": null
+        },
+        "y": {
+          "value": 8
+        },
+        "text": {
+          "field": "label"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,319 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "description": "Two-level treemap of international visitor nights by accommodation type, YE June 2026 (TRA IVS Table 4). Outer boxes group commercial and private (non-commercial) accommodation; inner tiles are the published categories.",
+  "width": 510,
+  "height": 360,
+  "padding": 0,
+  "autosize": "none",
+  "background": "transparent",
+  "data": [
+    {
+      "name": "tree",
+      "url": "data/accommodation.csv",
+      "format": {
+        "type": "csv",
+        "parse": {
+          "id": "string",
+          "parent": "string",
+          "name": "string",
+          "value": "number",
+          "full_name": "string",
+          "share": "number",
+          "group": "string"
+        }
+      },
+      "transform": [
+        {
+          "type": "stratify",
+          "key": "id",
+          "parentKey": "parent"
+        },
+        {
+          "type": "treemap",
+          "field": "value",
+          "sort": {
+            "field": "value",
+            "order": "descending"
+          },
+          "method": "squarify",
+          "paddingTop": 22,
+          "paddingInner": 2,
+          "paddingOuter": 3,
+          "round": true,
+          "size": [
+            {
+              "signal": "width"
+            },
+            {
+              "signal": "height"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "groups",
+      "source": "tree",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.depth === 1 && datum.children"
+        }
+      ]
+    },
+    {
+      "name": "leaves",
+      "source": "tree",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "!datum.children"
+        }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": [
+        "commercial",
+        "private",
+        "other"
+      ],
+      "range": [
+        "#17645d",
+        "#d66a3a",
+        "#8a948f"
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "type": "rect",
+      "from": {
+        "data": "groups"
+      },
+      "encode": {
+        "update": {
+          "x": {
+            "field": "x0"
+          },
+          "x2": {
+            "field": "x1"
+          },
+          "y": {
+            "field": "y0"
+          },
+          "y2": {
+            "field": "y1"
+          },
+          "fill": {
+            "scale": "color",
+            "field": "group"
+          },
+          "fillOpacity": {
+            "value": 0.14
+          },
+          "stroke": {
+            "scale": "color",
+            "field": "group"
+          },
+          "strokeWidth": {
+            "value": 1.5
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "groups"
+      },
+      "encode": {
+        "enter": {
+          "font": {
+            "value": "Arial"
+          },
+          "fontSize": {
+            "value": 12
+          },
+          "fontWeight": {
+            "value": "bold"
+          },
+          "baseline": {
+            "value": "top"
+          }
+        },
+        "update": {
+          "x": {
+            "signal": "datum.x0 + 6"
+          },
+          "y": {
+            "signal": "datum.y0 + 5"
+          },
+          "fill": {
+            "scale": "color",
+            "field": "group"
+          },
+          "text": {
+            "signal": "datum.x1 - datum.x0 > 120 ? upper(datum.name) + ' · ' + format(datum.share, '.1f') + '%' : (datum.x1 - datum.x0 > 40 ? format(datum.share, '.0f') + '%' : '')"
+          },
+          "limit": {
+            "signal": "datum.x1 - datum.x0 - 10"
+          }
+        }
+      }
+    },
+    {
+      "type": "rect",
+      "from": {
+        "data": "leaves"
+      },
+      "encode": {
+        "enter": {
+          "cornerRadius": {
+            "value": 2
+          }
+        },
+        "update": {
+          "x": {
+            "field": "x0"
+          },
+          "x2": {
+            "field": "x1"
+          },
+          "y": {
+            "field": "y0"
+          },
+          "y2": {
+            "field": "y1"
+          },
+          "fill": {
+            "scale": "color",
+            "field": "group"
+          },
+          "fillOpacity": {
+            "value": 0.92
+          },
+          "tooltip": {
+            "signal": "{'Accommodation': datum.full_name, 'Group': datum.group === 'other' ? 'Other / not stated' : (datum.group === 'commercial' ? 'Commercial' : 'Private (non-commercial)'), 'Nights': format(datum.value, ',.0f'), 'Share of all nights': format(datum.share, '.1f') + '%'}"
+          }
+        },
+        "hover": {
+          "fillOpacity": {
+            "value": 0.7
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "leaves"
+      },
+      "interactive": false,
+      "encode": {
+        "enter": {
+          "font": {
+            "value": "Arial"
+          },
+          "fontSize": {
+            "value": 12
+          },
+          "fill": {
+            "value": "white"
+          },
+          "baseline": {
+            "value": "top"
+          }
+        },
+        "update": {
+          "x": {
+            "signal": "datum.x0 + 7"
+          },
+          "y": {
+            "signal": "datum.y0 + 7"
+          },
+          "text": {
+            "signal": "datum.x1 - datum.x0 > 52 && datum.y1 - datum.y0 > 34 ? datum.name : ''"
+          },
+          "limit": {
+            "signal": "datum.x1 - datum.x0 - 14"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "leaves"
+      },
+      "interactive": false,
+      "encode": {
+        "enter": {
+          "font": {
+            "value": "Arial"
+          },
+          "fontSize": {
+            "value": 18
+          },
+          "fill": {
+            "value": "white"
+          },
+          "baseline": {
+            "value": "top"
+          }
+        },
+        "update": {
+          "x": {
+            "signal": "datum.x0 + 7"
+          },
+          "y": {
+            "signal": "datum.y0 + 25"
+          },
+          "text": {
+            "signal": "datum.x1 - datum.x0 > 60 && datum.y1 - datum.y0 > 55 ? format(datum.share, '.1f') + '%' : ''"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "leaves"
+      },
+      "interactive": false,
+      "encode": {
+        "enter": {
+          "font": {
+            "value": "Arial"
+          },
+          "fontSize": {
+            "value": 11
+          },
+          "fill": {
+            "value": "white"
+          },
+          "baseline": {
+            "value": "middle"
+          }
+        },
+        "update": {
+          "x": {
+            "signal": "datum.x0 + 7"
+          },
+          "y": {
+            "signal": "(datum.y0 + datum.y1) / 2"
+          },
+          "text": {
+            "signal": "datum.x1 - datum.x0 > 110 && datum.y1 - datum.y0 >= 16 && datum.y1 - datum.y0 <= 34 ? datum.name + ' · ' + format(datum.share, '.1f') + '%' : ''"
+          },
+          "limit": {
+            "signal": "datum.x1 - datum.x0 - 14"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 240,
+  "config": {
+    "background": "transparent",
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "labelColor": "#54645f",
+      "titleColor": "#344a43",
+      "gridColor": "#e2e5dc",
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titlePadding": 12,
+      "labelLimit": 180
+    },
+    "legend": {
+      "orient": "bottom",
+      "title": null,
+      "labelColor": "#344a43",
+      "labelFontSize": 11,
+      "titleLimit": 440,
+      "labelLimit": 230,
+      "columns": 1
+    },
+    "range": {
+      "category": [
+        "#17645d",
+        "#d66a3a",
+        "#243d53",
+        "#dca64a",
+        "#7f86a8",
+        "#9f7161",
+        "#79988a",
+        "#b29c64"
+      ]
+    }
+  },
+  "data": {
+    "url": "data/nightly-spend.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "type": "string",
+        "including": "number",
+        "excluding": "number"
+      }
+    }
+  },
+  "encoding": {
+    "y": {
+      "field": "type",
+      "type": "nominal",
+      "title": null
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "rule",
+        "color": "#b5bdb4",
+        "strokeWidth": 4
+      },
+      "encoding": {
+        "x": {
+          "field": "excluding",
+          "type": "quantitative",
+          "title": "Average AUD per night",
+          "scale": {
+            "zero": true
+          }
+        },
+        "x2": {
+          "field": "including"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "fold": [
+            "including",
+            "excluding"
+          ],
+          "as": [
+            "basis",
+            "amount"
+          ]
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 120,
+        "opacity": 1
+      },
+      "encoding": {
+        "x": {
+          "field": "amount",
+          "type": "quantitative",
+          "title": "Average AUD per night"
+        },
+        "color": {
+          "field": "basis",
+          "type": "nominal",
+          "title": null,
+          "scale": {
+            "domain": [
+              "including",
+              "excluding"
+            ],
+            "range": [
+              "#d66a3a",
+              "#17645d"
+            ]
+          },
+          "legend": {
+            "labelExpr": "datum.label=='including' ? 'Including accommodation' : 'Excluding accommodation'"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "type",
+            "type": "nominal",
+            "title": "Accommodation"
+          },
+          {
+            "field": "basis",
+            "type": "nominal",
+            "title": "Spend basis"
+          },
+          {
+            "field": "amount",
+            "type": "quantitative",
+            "title": "AUD per night",
+            "format": ",.0f"
+          }
+        ]
+      }
+    }
+  ]
+}

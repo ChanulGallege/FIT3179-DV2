@@ -1,0 +1,162 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 260,
+  "config": {
+    "background": "transparent",
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "labelColor": "#54645f",
+      "titleColor": "#344a43",
+      "gridColor": "#e2e5dc",
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titlePadding": 12,
+      "labelLimit": 180
+    },
+    "legend": {
+      "orient": "bottom",
+      "title": null,
+      "labelColor": "#344a43",
+      "labelFontSize": 11,
+      "titleLimit": 440,
+      "labelLimit": 230
+    },
+    "range": {
+      "category": [
+        "#17645d",
+        "#d66a3a",
+        "#243d53",
+        "#dca64a",
+        "#7f86a8",
+        "#9f7161",
+        "#79988a",
+        "#b29c64"
+      ]
+    }
+  },
+  "data": {
+    "url": "data/purpose-monthly.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "date": "date",
+        "purpose": "string",
+        "arrivals": "number",
+        "share": "number"
+      }
+    }
+  },
+  "mark": {
+    "type": "rect",
+    "stroke": "#fbfaf6",
+    "strokeWidth": 1
+  },
+  "encoding": {
+    "x": {
+      "field": "quarter",
+      "type": "ordinal",
+      "timeUnit": "yearquarter",
+      "title": null,
+      "axis": {
+        "labelExpr": "quarter(datum.value) == 1 ? timeFormat(datum.value, '%Y') : ''",
+        "labelAngle": 0,
+        "ticks": false
+      }
+    },
+    "y": {
+      "field": "purpose",
+      "type": "nominal",
+      "title": null,
+      "sort": [
+        "Holiday",
+        "Visiting friends/relatives",
+        "Education",
+        "Business",
+        "Employment",
+        "Convention/conference",
+        "Other & not stated"
+      ]
+    },
+    "color": {
+      "field": "share",
+      "type": "quantitative",
+      "title": "Share of the quarter's arrivals",
+      "scale": {
+        "scheme": "oranges"
+      },
+      "legend": {
+        "format": ".0%"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "quarter_label",
+        "type": "nominal",
+        "title": "Quarter"
+      },
+      {
+        "field": "purpose",
+        "type": "nominal",
+        "title": null
+      },
+      {
+        "field": "share",
+        "type": "quantitative",
+        "title": "Share of the quarter",
+        "format": ".1%"
+      },
+      {
+        "field": "arrivals",
+        "type": "quantitative",
+        "title": "Arrivals in the quarter",
+        "format": ",.0f"
+      }
+    ]
+  },
+  "description": "Quarterly share of short-term visitor arrivals by main purpose, Jan 2019 – Jun 2026 (ABS Table 6). Monthly counts are summed to quarters, then each purpose's share of the quarter's total is calculated.",
+  "transform": [
+    {
+      "timeUnit": "yearquarter",
+      "field": "date",
+      "as": "quarter"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "sum",
+          "field": "arrivals",
+          "as": "arrivals"
+        }
+      ],
+      "groupby": [
+        "quarter",
+        "purpose"
+      ]
+    },
+    {
+      "joinaggregate": [
+        {
+          "op": "sum",
+          "field": "arrivals",
+          "as": "quarter_total"
+        }
+      ],
+      "groupby": [
+        "quarter"
+      ]
+    },
+    {
+      "calculate": "datum.arrivals / datum.quarter_total",
+      "as": "share"
+    },
+    {
+      "calculate": "'Q' + quarter(datum.quarter) + ' ' + year(datum.quarter)",
+      "as": "quarter_label"
+    }
+  ]
+}

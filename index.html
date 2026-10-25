@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Australia, visited · Tourism in Australia</title>
+    <meta name="description" content="Explore Australia's tourism recovery, destinations, visitor markets and spending through twelve data visualisations.">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.33.0/build/vega.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.23.0/build/vega-lite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.29.0/build/vega-embed.min.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#top">AUSTRALIA, VISITED<span>THE TOURISM EDITION · 2026</span></a>
+      <nav aria-label="Story sections">
+        <a href="#recovery">Recovery</a>
+        <a href="#destinations">Destinations</a>
+        <a href="#markets">Visitors</a>
+        <a href="#spending">Spending</a>
+      </nav>
+    </header>
+    <main id="top">
+      <section class="hero">
+        <div class="eyebrow">
+          TOURISM IN AUSTRALIA / YEAR ENDING JUNE 2026
+        </div>
+        <h1>A world of visitors.<br><em>A country of stories.</em></h1>
+        <p class="standfirst">
+          Where do travellers go, what brings them here, and where does their money go? Follow
+          Australia's visitor economy from the border to the places people stay.
+        </p>
+        <div class="hero-rule">
+          <span>DOMESTIC &amp; INTERNATIONAL TOURISM</span>
+          <a href="#recovery">Explore the story ↓</a>
+        </div>
+        <div class="metrics">
+          <div>
+            <strong>8.4<span>m</span></strong>
+            <p>international trips</p>
+            <small>TRA · visitors aged 15+</small>
+          </div>
+          <div>
+            <strong>$40.5<span>b</span></strong>
+            <p>international spend in Australia</p>
+            <small>AUD · excludes overseas trip spending</small>
+          </div>
+          <div>
+            <strong>112.5<span>m</span></strong>
+            <p>domestic overnight trips</p>
+            <small>TRA · residents aged 14+</small>
+          </div>
+        </div>
+      </section>
+      <section id="recovery" class="chapter">
+        <div class="chapter-heading">
+          <span class="chapter-number">01</span>
+          <div>
+            <div class="eyebrow">
+              THE BIG PICTURE
+            </div>
+            <h2>Travel stopped. The story didn't.</h2>
+          </div>
+        </div>
+        <p class="intro">
+          The border closure appears as a sharp break in Australia's arrivals series. Looking at
+          monthly movements also reveals the peaks and troughs hidden by annual headlines.
+        </p>
+        <article class="chart-panel">
+          <div class="chart-top">
+            <div>
+              <span class="chart-kicker">01 / ARRIVAL TIMELINE</span>
+              <h3>A recovery measured at the border</h3>
+            </div>
+            <span class="period">JAN 2010 – JUL 2026</span>
+          </div>
+          <div id="chart-01" class="chart" aria-label="Monthly short-term visitor arrivals line chart">
+          </div>
+          <p class="caption">
+            ABS Table 5 · original monthly short-term visitor arrival movements. These are border
+            crossings, not unique people or the TRA survey's trip estimates. Hover for monthly
+            values.
+          </p>
+        </article>
+      </section>
+      <section id="destinations" class="chapter">
+        <div class="chapter-heading">
+          <span class="chapter-number">02</span>
+          <div>
+            <div class="eyebrow">
+              WHERE PEOPLE GO
+            </div>
+            <h2>Volume is only half the picture.</h2>
+          </div>
+        </div>
+        <p class="intro">
+          A place can attract many trips, or keep travellers for longer. The state map compares
+          how long visitors stay; the regional map shows where their trips concentrate.
+        </p>
+        <div class="two-col">
+          <article class="chart-panel">
+            <div class="chart-top">
+              <div>
+                <span class="chart-kicker">02 / STATE CHOROPLETH</span>
+                <h3>Where do visitors stay longer?</h3>
+              </div>
+            </div>
+            <div id="chart-02" class="chart">
+            </div>
+            <p class="caption">
+              Average nights per international trip (nights ÷ trips) in each state and territory,
+              YE June 2026. Every state has a published value. State outlines are TRA tourism
+              regions merged by state. TRA IVS Table 3.
+            </p>
+          </article>
+          <article class="chart-panel">
+            <div class="chart-top">
+              <div>
+                <span class="chart-kicker">03 / PROPORTIONAL-SYMBOL MAP</span>
+                <h3>Where do visitors concentrate?</h3>
+              </div>
+            </div>
+            <div id="chart-03" class="chart">
+            </div>
+            <p class="caption">
+              Symbol area represents international regional trips, YE June 2026. Points represent
+              tourism regions, not cities or exact visitor locations. One trip can include several
+              regions.
+            </p>
+          </article>
+        </div>
+        <aside class="reading-note">
+          <span>READING THE MAPS</span>
+          The state map covers every state and territory (IVS Table 3). The symbol map shows the
+          twenty regions TRA reports individually (IVS Table 6); a region without a circle has no
+          separate estimate, not zero visitors.
+        </aside>
+      </section>
+      <section id="markets" class="chapter">
+        <div class="chapter-heading">
+          <span class="chapter-number">03</span>
+          <div>
+            <div class="eyebrow">
+              WHERE VISITORS COME FROM
+            </div>
+            <h2>Close neighbours. Long connections.</h2>
+          </div>
+        </div>
+        <p class="intro">
+          New Zealand leads the selected source markets by trips. Geography helps explain those
+          connections, while the ranking shows how the major markets compare.
+        </p>
+        <article class="chart-panel">
+          <div class="chart-top">
+            <div>
+              <span class="chart-kicker">04 / SOURCE-MARKET FLOW MAP</span>
+              <h3>Five major markets, one destination</h3>
+            </div>
+            <span class="period">YE JUN 2026</span>
+          </div>
+          <div id="chart-04" class="chart">
+          </div>
+          <p class="caption">
+            Line width shows international trips from New Zealand, China, the UK, the USA and India
+            (see legend); the orange point marks Australia, the destination. Connections are
+            schematic residence-to-Australia links, not flight paths. Locations are representative points derived from Natural Earth polygons. TRA IVS
+            Table 1.
+          </p>
+        </article>
+        <div class="two-col">
+          <article class="chart-panel">
+            <div class="chart-top">
+              <div>
+                <span class="chart-kicker">05 / SOURCE-MARKET RANKING</span>
+                <h3>The largest visitor markets</h3>
+              </div>
+            </div>
+            <div id="chart-05" class="chart">
+            </div>
+            <p class="caption">
+              Top ten named markets by international trips. Change the year below the chart to
+              compare YE June 2025 and 2026. Residual country groups and Scandinavia are excluded
+              from this ranking. TRA IVS Table 1.
+            </p>
+          </article>
+          <div class="editorial">
+            <span class="big-quote">Trips tell us<br><em>how many.</em><br>Spending tells<br>another story.</span>
+            <p>
+              Visitor numbers and spending do not move in lockstep. Length of stay and reasons for
+              travelling can affect the total. Later in the story, compare each market's trip volume
+              with its spending in Australia.
+            </p>
+            <a href="#chart-10">See the spending comparison ↗</a>
+          </div>
+        </div>
+      </section>
+      <section id="purpose" class="chapter">
+        <div class="chapter-heading">
+          <span class="chapter-number">04</span>
+          <div>
+            <div class="eyebrow">
+              WHY PEOPLE TRAVEL
+            </div>
+            <h2>More than a holiday.</h2>
+          </div>
+        </div>
+        <p class="intro">
+          Holidays, family connections, work and education all bring people to Australia. The
+          quarterly mix changed during the pandemic; the annual snapshot shows the balance today.
+        </p>
+        <article class="chart-panel">
+          <div class="chart-top">
+            <div>
+              <span class="chart-kicker">06 / PURPOSE THROUGH TIME</span>
+              <h3>The changing reasons for arrival</h3>
+            </div>
+            <span class="period">JAN 2019 – JUN 2026</span>
+          </div>
+          <div id="chart-06" class="chart">
+          </div>
+          <p class="caption">
+            ABS Table 6 · monthly purpose counts summed to quarters; colour shows each purpose's
+            share of the quarter's arrivals. Darker cells mean a larger share, not more total
+            arrivals. Very low pandemic arrival volumes can produce large shifts in proportions.
+          </p>
+        </article>
+        <div class="two-col">
+          <article class="chart-panel">
+            <div class="chart-top">
+              <div>
+                <span class="chart-kicker">07 / PURPOSE WAFFLE</span>
+                <h3>What brings visitors here now?</h3>
+              </div>
+            </div>
+            <div id="chart-07" class="chart">
+            </div>
+            <p class="caption">
+              TRA IVS Table 2 · YE June 2026. Each square approximates 1% of international trips,
+              ordered from the largest purpose to the smallest. Cells use largest-remainder
+              rounding; hover for the actual share. IVS purpose groups
+              differ from ABS groups.
+            </p>
+          </article>
+          <article class="chart-panel">
+            <div class="chart-top">
+              <div>
+                <span class="chart-kicker">08 / ACCOMMODATION TREEMAP</span>
+                <h3>Where the nights are spent</h3>
+              </div>
+            </div>
+            <div id="chart-08" class="chart">
+            </div>
+            <p class="caption">
+              Area represents international visitor nights, not trips. Outer boxes use an author-defined grouping of TRA's
+              accommodation types into commercial and private (non-commercial) stays; "Other / not
+              stated" includes nights in transit. Hover over small tiles for details. TRA IVS Table 4
+              · YE June 2026.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section id="spending" class="chapter">
+        <div class="chapter-heading">
+          <span class="chapter-number">05</span>
+          <div>
+            <div class="eyebrow">
+              THE SPENDING STORY
+            </div>
+            <h2>Different trips. Different footprints.</h2>
+          </div>
+        </div>
+        <p class="intro">
+          The type of stay, the visitor market and the season all change the spending picture. Keep
+          the populations and periods in view: domestic overnight holidays and international trips
+          measure different parts of tourism.
+        </p>
+        <div class="two-col">
+          <article class="chart-panel">
+            <div class="chart-top">
+              <div>
+                <span class="chart-kicker">09 / NIGHTLY SPENDING COMPARISON</span>
+                <h3>A hotel stay costs more than the room</h3>
+              </div>
+            </div>
+            <div id="chart-09" class="chart">
+            </div>
+            <p class="caption">
+              Average spending per night on domestic overnight holiday trips, April–June 2026.
+              Published rounded values from the DoTS report, page 2 Figure 3. Accommodation groups
+              may overlap across trips.
+            </p>
+          </article>
+          <article class="chart-panel">
+            <div class="chart-top">
+              <div>
+                <span class="chart-kicker">10 / TRIPS &amp; SPENDING</span>
+                <h3>The busiest market isn't the biggest spender</h3>
+              </div>
+            </div>
+            <div id="chart-10" class="chart">
+            </div>
+            <p class="caption">
+              Named international markets, YE June 2026. Both axes use a log scale so smaller
+              markets are visible; dashed lines mark equal spending per trip. China records more
+              spending in Australia than New Zealand despite fewer trips. This is an aggregate comparison, not evidence of
+              causation. TRA IVS Table 1.
+            </p>
+          </article>
+        </div>
+        <article class="chart-panel">
+          <div class="chart-top">
+            <div>
+              <span class="chart-kicker">11 / STATE SPENDING RANKS</span>
+              <h3>The order shifts with the quarter</h3>
+            </div>
+            <span class="period">JUN 2025 – JUN 2026</span>
+          </div>
+          <div id="chart-11" class="chart">
+          </div>
+          <p class="caption">
+            Ranks of domestic overnight regional expenditure, highest = 1. Rank shows order, not the
+            size of spending gaps. Hover for actual AUD million values. TRA DoTS Table 1b.
+          </p>
+        </article>
+        <article class="chart-panel">
+          <div class="chart-top">
+            <div>
+              <span class="chart-kicker">12 / EXPENDITURE WATERFALL</span>
+              <h3>What adds up to a $57 billion trip economy?</h3>
+            </div>
+            <span class="period">YE JUN 2026</span>
+          </div>
+          <div id="chart-12" class="chart">
+          </div>
+          <p class="caption">
+            Each floating bar adds one international expenditure category to the running total. The
+            final bar is total trip spend, including overseas components; it is not the $40.5
+            billion spent in Australia, nor a measure of GDP or jobs. TRA IVS Table 7.
+          </p>
+        </article>
+      </section>
+      <section class="closing">
+        <div class="eyebrow">
+          THE TAKEAWAY
+        </div>
+        <h2>Tourism is a movement of people.<br>Its impact depends on the trip.</h2>
+        <p>
+          Arrival counts capture recovery. Destinations, purposes, nights and spending reveal how
+          that recovery is experienced across Australia.
+        </p>
+      </section>
+      <footer>
+        <h3>Sources &amp; methods</h3>
+        <p>
+          ABS Overseas Arrivals and Departures, July 2026 release (Tables 5 and 6). Tourism Research
+          Australia International Visitor Survey and Domestic Tourism Statistics, June 2026 release.
+          Regional boundaries: Tourism Research Australia, Tourism Regions 2026 (state outlines merged from these regions);
+          world boundaries: Natural Earth 1:110m via Vega datasets.
+        </p>
+        <div class="source-links">
+          <a href="https://www.abs.gov.au/statistics/industry/tourism-and-transport/overseas-arrivals-and-departures-australia/latest-release">ABS arrivals ↗</a>
+          <a href="https://www.tra.gov.au/en/tourism-statistics/international-tourism-results">TRA international ↗</a>
+          <a href="https://www.tra.gov.au/en/tourism-statistics/domestic-tourism-statistics-results">TRA domestic ↗</a>
+          <a href="https://www.tra.gov.au/en/profiles/tourism-regions-maps">TRA geography ↗</a>
+          <a href="https://www.naturalearthdata.com/downloads/110m-cultural-vectors/110m-admin-0-countries/">Natural Earth ↗</a>
+        </div>
+        <p>
+          Figures are survey estimates or published movement counts. “Year ending June 2026” means
+          July 2025–June 2026. ABS counts movements; IVS covers international visitors aged 15+;
+          DoTS covers Australian residents aged 14+. Do not add these measures together.
+        </p>
+        <div class="footer-bottom">
+          <span>FIT3179 · Data Visualisation 2 · Created by Chanul Gallege</span>
+          <span>October 2026</span>
+        </div>
+        <p class="author-note">
+          OpenAI ChatGPT helped with data sourcing and preparation,
+          code, wording and grammar. All content was reviewed by the author.
+        </p>
+      </footer>
+    </main>
+    <script src="js/vega_lite.js"></script>
+  </body>
+</html>

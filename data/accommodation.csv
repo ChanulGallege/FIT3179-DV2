@@ -1,0 +1,15 @@
+id,parent,name,value,full_name,share,group
+root,,All nights,0,,100,
+commercial,root,Commercial,0,Commercial,61.85272629298725,commercial
+private,root,Private,0,Private (non-commercial),34.95611130322381,private
+0,commercial,Hotels / resorts,34371111.877720006,Hotel/resort/motel or motor Inn,10.916500244970823,commercial
+1,commercial,Guest houses,574669.2028,Guest house or Bed & Breakfast,0.18251886978407317,commercial
+2,commercial,Rented homes,144044117.94364002,Rented house/apartment/flat or unit,45.749397180184005,commercial
+3,commercial,Caravan parks,2684879.47651,Caravan park or commercial camping ground,0.8527360874245535,commercial
+4,commercial,Hostels,10182888.857870001,Backpacker or hostel,3.234155156426741,commercial
+5,commercial,Other commercial,2888535.87978,Other commercial accommodation,0.9174187541970521,commercial
+6,private,Own property,6030815.0888600005,Own property,1.9154281254890004,private
+7,private,Friends / relatives,91534344.94458,Friends or relatives property,29.071934087138864,private
+8,private,Non-commercial camping,1134212.96527,Caravan or camping - non commercial,0.3602337962550769,private
+9,private,Other private,11361579.27092,Other Private Accommodation,3.608515294340865,private
+10,root,Other / not stated,10047524.16427,Other Accomodation(b),3.1911624037889457,other

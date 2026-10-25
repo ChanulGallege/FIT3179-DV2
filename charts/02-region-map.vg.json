@@ -1,0 +1,237 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Choropleth of average international visitor nights per trip by state and territory, year ending June 2026 (TRA IVS Table 3). State shapes are TRA tourism regions merged by state.",
+  "width": "container",
+  "height": 390,
+  "config": {
+    "background": "transparent",
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "labelColor": "#54645f",
+      "titleColor": "#344a43",
+      "gridColor": "#e2e5dc",
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titlePadding": 12,
+      "labelLimit": 180
+    },
+    "legend": {
+      "orient": "bottom",
+      "title": null,
+      "labelColor": "#344a43",
+      "labelFontSize": 11,
+      "titleLimit": 440,
+      "labelLimit": 230
+    },
+    "range": {
+      "category": [
+        "#17645d",
+        "#d66a3a",
+        "#243d53",
+        "#dca64a",
+        "#7f86a8",
+        "#9f7161",
+        "#79988a",
+        "#b29c64"
+      ]
+    }
+  },
+  "projection": {
+    "type": "mercator",
+    "center": [
+      134,
+      -28
+    ],
+    "scale": 480
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/states.json",
+        "format": {
+          "type": "json"
+        }
+      },
+      "transform": [
+        {
+          "lookup": "properties.state",
+          "from": {
+            "data": {
+              "url": "data/state-stays.csv",
+              "format": {
+                "type": "csv",
+                "parse": {
+                  "state": "string",
+                  "trips": "number",
+                  "nights": "number",
+                  "nights_per_trip": "number"
+                }
+              }
+            },
+            "key": "state",
+            "fields": [
+              "trips",
+              "nights",
+              "nights_per_trip"
+            ]
+          }
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "#fff",
+        "strokeWidth": 0.8
+      },
+      "encoding": {
+        "color": {
+          "field": "nights_per_trip",
+          "type": "quantitative",
+          "title": "Average nights per trip",
+          "scale": {
+            "scheme": "tealblues",
+            "domain": [
+              15,
+              36
+            ]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "properties.state",
+            "type": "nominal",
+            "title": "State / territory"
+          },
+          {
+            "field": "nights_per_trip",
+            "type": "quantitative",
+            "title": "Nights per trip",
+            "format": ".1f"
+          },
+          {
+            "field": "trips",
+            "type": "quantitative",
+            "title": "Trips",
+            "format": ",.0f"
+          },
+          {
+            "field": "nights",
+            "type": "quantitative",
+            "title": "Nights",
+            "format": ",.0f"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "state": "Western Australia",
+            "label": "WA",
+            "lon": 121.5,
+            "lat": -25.5
+          },
+          {
+            "state": "Northern Territory",
+            "label": "NT",
+            "lon": 133.4,
+            "lat": -19.5
+          },
+          {
+            "state": "Queensland",
+            "label": "QLD",
+            "lon": 144.5,
+            "lat": -22.5
+          },
+          {
+            "state": "South Australia",
+            "label": "SA",
+            "lon": 135.5,
+            "lat": -30.0
+          },
+          {
+            "state": "New South Wales",
+            "label": "NSW",
+            "lon": 146.5,
+            "lat": -32.3
+          },
+          {
+            "state": "Victoria",
+            "label": "VIC",
+            "lon": 144.3,
+            "lat": -36.9
+          },
+          {
+            "state": "Tasmania",
+            "label": "TAS",
+            "lon": 146.6,
+            "lat": -42.1
+          },
+          {
+            "state": "Australian Capital Territory",
+            "label": "ACT",
+            "lon": 151.6,
+            "lat": -35.6
+          }
+        ]
+      },
+      "transform": [
+        {
+          "lookup": "state",
+          "from": {
+            "data": {
+              "url": "data/state-stays.csv",
+              "format": {
+                "type": "csv",
+                "parse": {
+                  "state": "string",
+                  "trips": "number",
+                  "nights": "number",
+                  "nights_per_trip": "number"
+                }
+              }
+            },
+            "key": "state",
+            "fields": [
+              "nights_per_trip"
+            ]
+          }
+        },
+        {
+          "calculate": "datum.label + ' ' + format(datum.nights_per_trip, '.1f')",
+          "as": "text"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "align": "center"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "text"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.nights_per_trip > 27 && datum.label != 'ACT'",
+            "value": "#ffffff"
+          },
+          "value": "#203d35"
+        }
+      }
+    }
+  ]
+}

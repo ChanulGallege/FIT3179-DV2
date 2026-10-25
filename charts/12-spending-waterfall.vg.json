@@ -1,0 +1,111 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 300,
+  "config": {
+    "background": "transparent",
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "labelColor": "#54645f",
+      "titleColor": "#344a43",
+      "gridColor": "#e2e5dc",
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titlePadding": 12,
+      "labelLimit": 180
+    },
+    "legend": {
+      "orient": "bottom",
+      "title": null,
+      "labelColor": "#344a43",
+      "labelFontSize": 11,
+      "titleLimit": 440,
+      "labelLimit": 230
+    },
+    "range": {
+      "category": [
+        "#17645d",
+        "#d66a3a",
+        "#243d53",
+        "#dca64a",
+        "#7f86a8",
+        "#9f7161",
+        "#79988a",
+        "#b29c64"
+      ]
+    }
+  },
+  "data": {
+    "url": "data/waterfall.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "item": "string",
+        "start": "number",
+        "end": "number",
+        "value": "number",
+        "order": "number",
+        "kind": "string"
+      }
+    }
+  },
+  "mark": {
+    "type": "bar",
+    "cornerRadiusTopLeft": 2,
+    "cornerRadiusTopRight": 2
+  },
+  "encoding": {
+    "x": {
+      "field": "item",
+      "type": "nominal",
+      "title": null,
+      "sort": {
+        "field": "order"
+      },
+      "axis": {
+        "labelAngle": -30
+      }
+    },
+    "y": {
+      "field": "end",
+      "type": "quantitative",
+      "title": "Total trip spend (AUD billion)"
+    },
+    "y2": {
+      "field": "start"
+    },
+    "color": {
+      "field": "kind",
+      "type": "nominal",
+      "title": null,
+      "scale": {
+        "domain": [
+          "Component",
+          "Total"
+        ],
+        "range": [
+          "#17645d",
+          "#d66a3a"
+        ]
+      },
+      "legend": null
+    },
+    "tooltip": [
+      {
+        "field": "item",
+        "type": "nominal",
+        "title": "Expenditure item"
+      },
+      {
+        "field": "value",
+        "type": "quantitative",
+        "title": "AUD billion",
+        "format": ".2f"
+      }
+    ]
+  }
+}

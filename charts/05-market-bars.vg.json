@@ -1,0 +1,130 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 330,
+  "config": {
+    "background": "transparent",
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "labelColor": "#54645f",
+      "titleColor": "#344a43",
+      "gridColor": "#e2e5dc",
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titlePadding": 12,
+      "labelLimit": 180
+    },
+    "legend": {
+      "orient": "bottom",
+      "title": null,
+      "labelColor": "#344a43",
+      "labelFontSize": 11,
+      "titleLimit": 440,
+      "labelLimit": 230
+    },
+    "range": {
+      "category": [
+        "#17645d",
+        "#d66a3a",
+        "#243d53",
+        "#dca64a",
+        "#7f86a8",
+        "#9f7161",
+        "#79988a",
+        "#b29c64"
+      ]
+    }
+  },
+  "data": {
+    "url": "data/markets.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "market": "string",
+        "year": "number",
+        "trips": "number",
+        "spend_m": "number"
+      }
+    }
+  },
+  "params": [
+    {
+      "name": "marketYear",
+      "value": 2026,
+      "bind": {
+        "input": "select",
+        "options": [
+          2025,
+          2026
+        ],
+        "name": "Year ending June "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "filter": "datum.year==marketYear"
+    },
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "trips",
+          "order": "descending"
+        }
+      ]
+    },
+    {
+      "filter": "datum.rank<=10"
+    }
+  ],
+  "mark": {
+    "type": "bar",
+    "color": "#17645d",
+    "cornerRadiusEnd": 3
+  },
+  "encoding": {
+    "y": {
+      "field": "market",
+      "type": "nominal",
+      "title": null,
+      "sort": "-x"
+    },
+    "x": {
+      "field": "trips",
+      "type": "quantitative",
+      "title": "International trips",
+      "axis": {
+        "format": "~s"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "market",
+        "type": "nominal",
+        "title": null
+      },
+      {
+        "field": "trips",
+        "type": "quantitative",
+        "title": "Trips",
+        "format": ",.0f"
+      },
+      {
+        "field": "spend_m",
+        "type": "quantitative",
+        "title": "Spend in Australia (AUD m)",
+        "format": ",.1f"
+      }
+    ]
+  }
+}

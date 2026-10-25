@@ -1,0 +1,134 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 390,
+  "config": {
+    "background": "transparent",
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "domain": false,
+      "labelColor": "#54645f",
+      "titleColor": "#344a43",
+      "gridColor": "#e2e5dc",
+      "labelFontSize": 11,
+      "titleFontSize": 12,
+      "titlePadding": 12,
+      "labelLimit": 180
+    },
+    "legend": {
+      "orient": "bottom",
+      "title": null,
+      "labelColor": "#344a43",
+      "labelFontSize": 11,
+      "titleLimit": 440,
+      "labelLimit": 230
+    },
+    "range": {
+      "category": [
+        "#17645d",
+        "#d66a3a",
+        "#243d53",
+        "#dca64a",
+        "#7f86a8",
+        "#9f7161",
+        "#79988a",
+        "#b29c64"
+      ]
+    }
+  },
+  "projection": {
+    "type": "mercator",
+    "center": [
+      134,
+      -28
+    ],
+    "scale": 480
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/regions.json",
+        "format": {
+          "type": "json"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e4e7de",
+        "stroke": "#fbfaf6",
+        "strokeWidth": 0.4
+      }
+    },
+    {
+      "data": {
+        "url": "data/region-symbols.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "region_code": "string",
+            "region": "string",
+            "trips": "number",
+            "nights_per_trip": "number",
+            "spend_m": "number",
+            "longitude": "number",
+            "latitude": "number"
+          }
+        }
+      },
+      "mark": {
+        "type": "circle",
+        "color": "#d66a3a",
+        "opacity": 0.65,
+        "stroke": "#fff",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "trips",
+          "type": "quantitative",
+          "title": "Regional trips",
+          "scale": {
+            "range": [
+              30,
+              1700
+            ]
+          },
+          "legend": {
+            "format": "~s"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "region",
+            "type": "nominal",
+            "title": "Tourism region"
+          },
+          {
+            "field": "trips",
+            "type": "quantitative",
+            "title": "Trips",
+            "format": ",.0f"
+          },
+          {
+            "field": "spend_m",
+            "type": "quantitative",
+            "title": "Spend (AUD million)",
+            "format": ",.1f"
+          }
+        ]
+      }
+    }
+  ],
+  "description": "Tourism-region boundaries are loaded directly from data/regions.json."
+}
